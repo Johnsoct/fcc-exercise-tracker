@@ -1,18 +1,55 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
-require('dotenv').config()
+// Packages
+require('dotenv').config({ path: '.env.development' })
+const mongoose = require('mongoose')
+try {
+  mongoose.connect(process.env.MONGODB_URI)
 
-app.use(cors())
-app.use(express.static('public'))
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html')
-});
+  mongoose.connection.on('error', (error) => {
+    console.log('Mongoose Connection Error', error)
+  })
 
+  mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose disconnected!')
+  })
+}
+catch (error) {
+  console.log('Mongoose Connection Error', error)
+}
 
-
-
-
-const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port)
+const schemaExercise = mongoose.Schema({
+  date: Date,
+  description: {
+    required: true,
+    type: String,
+  },
+  duration: {
+    required: true,
+    type: Number,
+  },
 })
+const schemaUser = mongoose.Schema({
+  username: {
+    required: true,
+    type: String,
+  },
+})
+
+const modelExercise = mongoose.model('Exercise', schemaExercise)
+const modelUser = mongoose.model('User', schemaUser)
+
+const createUser = async (username) => {
+  const document = new modelUser({
+    username,
+  })
+  
+  try {
+    return await document.save()
+  }
+  catch (error) {
+    return error
+  }
+}
+
+module.exports = {
+  createUser,
+}
