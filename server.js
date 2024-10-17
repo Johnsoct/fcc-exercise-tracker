@@ -20,21 +20,21 @@ app.use(express.static('public'))
 // START OF ROUTES
 
 app.get('/', (req, res) => {
-  res.sendFile(`${__dirname}/views/index.html`)
+        res.sendFile(`${__dirname}/views/index.html`)
 })
 
 app.post('/api/users', async function (req, res) {
-  const username = req.body.username
+        const username = req.body.username
 
-  try {
-    const user = await CRUDOperations.createUser(username); //post user
-    res.json(user)
-  }
-  catch (error) {
-    res
-      .status(400)
-      .json({ error })
-  }
+        try {
+                const user = await CRUDOperations.createUser(username); //post user
+                res.json(user)
+        }
+        catch (error) {
+                res
+                        .status(400)
+                        .json({ error })
+        }
 })
 
 // app.get('/api/users', async function (req, res) {
@@ -85,5 +85,5 @@ app.post('/api/users', async function (req, res) {
 // END OF ROUTES
 
 const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port)
+        console.log('Your app is listening on port ' + listener.address().port)
 })
