@@ -2,9 +2,9 @@
 require('dotenv').config({ path: '.env.development' })
 const mongoose = require('mongoose')
 // Models
-const { 
-        modelExercise, 
-        modelUser 
+const {
+        modelExercise,
+        modelUser
 } = require('./models')
 
 try {
@@ -43,10 +43,10 @@ const getUsers = async () => {
 }
 
 const getUserById = async (
-        id, 
-        limit = undefined, 
-        from = undefined, 
-        to = undefined, 
+        id,
+        limit = undefined,
+        from = undefined,
+        to = undefined,
         populateLog = false
 ) => {
         try {
@@ -55,7 +55,7 @@ const getUserById = async (
                         .exec()
 
                 if (populateLog) {
-                        await doc.populate([{ 
+                        await doc.populate([{
                                 path: 'log',
                                 match: {
                                         date: {
