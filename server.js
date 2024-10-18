@@ -62,7 +62,6 @@ app.post('/api/users/:_id/exercises', async function (req, res, next) {
                 const exercise = await CRUDOperations.postExercise(_id, description, duration, date)
                 const user = await CRUDOperations.getUserById(_id)
 
-                // res.json(user)
                 res.json({
                         date: new Date(exercise.date).toDateString(),
                         description: exercise.description,
