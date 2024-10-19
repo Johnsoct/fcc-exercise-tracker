@@ -7,6 +7,9 @@ const timeout = require('connect-timeout')
 // Helpers
 const CRUDOperations = require('./index.js')
 const errorHandler = require('./error-handler.js')
+const {
+        localToUTCDate,
+} = require('./helpers.js')
 
 const app = express()
 
@@ -61,9 +64,11 @@ app.post('/api/users/:_id/exercises', async function (req, res, next) {
 
                 const exercise = await CRUDOperations.postExercise(_id, description, duration, date)
                 const user = await CRUDOperations.getUserById(_id)
+                
+                const testAcceptableDate = localToUTCDate(exercise.date)
 
                 res.json({
-                        date: new Date(exercise.date).toDateString(),
+                        date: testAcceptableDate,
                         description: exercise.description,
                         duration: exercise.duration,
                         username: user.username,

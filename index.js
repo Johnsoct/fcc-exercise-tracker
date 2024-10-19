@@ -6,6 +6,10 @@ const {
         modelExercise,
         modelUser
 } = require('./models')
+// Helpers
+const {
+        localToUTCDate,
+} = require('./helpers.js')
 
 try {
         mongoose.connect(process.env.MONGODB_URI)
@@ -75,7 +79,7 @@ const getUserById = async (
                                         const logPOJO = log.toObject()
                                         return {
                                                 ...logPOJO,
-                                                date: new Date(logPOJO.date).toDateString(),
+                                                date: localToUTCDate(logPOJO.date),
                                         }
                                 }
                         }])
